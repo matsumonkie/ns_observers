@@ -1,7 +1,7 @@
 ns_observers
 ============
 
-ns_observers is a simple namespaced observers pattern. Instead of calling notify for every observer, ns_observers narrow down specific observers. 
+ns_observers is a simple namespaced observer pattern. Instead of calling notify on every observer, ns_observers narrows down specific observers. 
 Less talk more code:
 
     observers = NSObservers.new("some_config_file.yaml")
@@ -9,7 +9,7 @@ Less talk more code:
     
 Pretty simple isn't it ?
 
-NSObservers will execute the call function of the concern observers.
+NSObservers will execute the call function for the concerned observers.
 Namespaces, actions and observers are configured in a yaml file.
 
 For example :
@@ -45,7 +45,7 @@ Now, calling:
 Will produce:
 
     "black coffee please !!!!"
-    "Bacooooooooo time !!!"
+    "Bacooooooooon time !!!"
     
 But you can still use it as a basic observer implementation with
 
