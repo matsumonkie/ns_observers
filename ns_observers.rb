@@ -22,10 +22,10 @@ class NSObservers
 
   #--------------------------------------------------------------------------------
   def notify_all(opts = {})
-    conf.each_value do |actionToClasses|
+    @observers.each_value do |actionToClasses|
       actionToClasses.each_value do |classes|
         classes.each do |klass|
-          observer = Object.const_get(observer.to_s).new
+          observer = Object.const_get(klass).new
           observer.call(opts)
         end
       end
