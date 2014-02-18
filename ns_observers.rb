@@ -5,9 +5,7 @@ class NSObservers
   #--------------------------------------------------------------------------------  
   def initialize(yaml_conf)
     @observers = YAML::load_file(yaml_conf)
-    if @observers
-      check_valid_classes_from_conf(@observers)
-    end
+    check_valid_classes_from_conf if @observers
   end
 
   #--------------------------------------------------------------------------------
@@ -22,28 +20,26 @@ class NSObservers
 
   #--------------------------------------------------------------------------------
   def notify_all(opts = {})
-    @observers.each_value do |actionToClasses|
-      actionToClasses.each_value do |classes|
-        classes.each do |klass|
-          observer = Object.const_get(klass).new
-          observer.call(opts)
-        end
-      end
+    all_classes.each do |klass|
+      observer = Object.const_get(klass).new
+      observer.call(opts)
     end
   end
 
   private
 
   #--------------------------------------------------------------------------------
-  def check_valid_classes_from_conf(conf)
-    conf.each_value do |actionToClasses|
-      actionToClasses.each_value do |klasses|
-        klasses.each do |klass|
-          # raise an exception if class not valid
-          Object.const_get(klass)
-        end
-      end
-    end
+  def all_classes
+    klasses = @observers.values.map { |actionToClasses| actionToClasses.values }
+    klasses.flatten
+  end
+
+  #--------------------------------------------------------------------------------
+  def check_valid_classes_from_conf
+    all_classes.each do |klass|
+      # raise an exception if class not valid
+      Object.const_get(klass)
+    end    
   end
  
   #--------------------------------------------------------------------------------
